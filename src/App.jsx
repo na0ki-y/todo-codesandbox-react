@@ -1,55 +1,67 @@
 import React, { useState, useEffect } from "react";
-import { Colofulmessage } from "./components/Colofulmessage";
-const App = () => {
-  console.log("saisyo");
-  const [num, setNum] = useState(0); //分割 変数名と関数
-  const [faceflag, setfaceflag] = useState(true); //分割 変数名と関数
+import { InputTodo } from "./components/InputTodo";
+import { InCompTodo } from "./components/InCompTodo";
+import { CompTodo } from "./components/CompTodo";
 
-  const handleClick = () => {
-    setNum(num + 1);
+import "./styles.css";
+export const App = () => {
+  const [todoText, setTodoText] = useState("");
+  const [incompleteTodos, setIncompleteTodos] = useState(["掃除", "料理"]);
+  const [completeTodos, setCompleteTodos] = useState(["ごみ", "選択"]);
+  const onChangeText = (event) => {
+    setTodoText(event.target.value);
   };
-  const onoffclickbutton = () => {
-    setfaceflag(!faceflag);
-  };
-  useEffect(() => {
-    console.log("配列を指定しないとベタ書きと同じ");
-  }); //(関数,配列)
-  useEffect(() => {
-    console.log("はじめだけ実行するにはからの配列");
-  }, []); //(関数,配列)
-  useEffect(() => {
-    console.log("配列にnumを入れる：numにだけ関心を向ける");
-  }, [num]); //(関数,配列)
-  useEffect(() => {
-    if (num % 3 == 0) {
-      console.log("a");
-      faceflag || setfaceflag(true); //falseのときだけにsetfaceflag
-    } else {
-      faceflag && setfaceflag(false); //trueのときだけにsetfaceflag
+  const onClickAddText = () => {
+    if (todoText == "") {
+      //なにも入力されていないときにはなにもしない
+      return;
     }
-  }, [num]); //(関数,配列)
-
-  const contentState = { color: "blue", fontSize: "18px" }; //中にCSSの記法
-  const contentpinkState = { color: "pink", fontSize: "18px" }; //中にCSSの記法
-
-  //JSXはJSのなかにhtmlかける。
-  //複数なら外側で囲わないといけないから、<React.Fragment> </React.Fragment>or<></>
-  //<!-- {}JSをかく {color:'red'}JSオブジェクトの書き方 -->
+    const newList = [...incompleteTodos, todoText]; //追加した配列を作成
+    setIncompleteTodos(newList); //上書き
+    setTodoText(""); //入力された文字を消す
+  };
+  const onClickDel = (index) => {
+    const newList = [...incompleteTodos]; //deepコピー
+    newList.splice(index, 1); //indexのいちを一つ削除する
+    setIncompleteTodos(newList); //上書き
+  };
+  const onClickComp = (index) => {
+    //追加
+    const newListComp = [...completeTodos, incompleteTodos[index]]; //deepコピー
+    setCompleteTodos(newListComp); //上書き
+    //削除
+    const newListIncomp = [...incompleteTodos]; //deepコピー
+    newListIncomp.splice(index, 1); //indexのいちを一つ削除する
+    setIncompleteTodos(newListIncomp); //上書き
+  };
+  const onClickBack = (index) => {
+    //alert(`back ${index}`);
+    //追加
+    const newListIncomp = [...incompleteTodos, completeTodos[index]]; //deepコピー
+    setIncompleteTodos(newListIncomp); //上書き
+    //削除
+    const newListComp = [...completeTodos]; //deepコピー
+    newListComp.splice(index, 1); //indexのいちを一つ削除する
+    setCompleteTodos(newListComp); //上書き
+  };
   return (
     <>
-      <h1 style={{ color: "red" }}>こんにちは．</h1>
-      <Colofulmessage color="blue">元気ですか？</Colofulmessage>
-      <Colofulmessage color="pink">げんき</Colofulmessage>
-      <button onClick={handleClick}>カウントアップぼたん!</button>
-      <p>{num}</p>
-      <button onClick={onoffclickbutton}>on/off</button>
-      {faceflag && <p>(TT)</p>}
+      <InputTodo
+        todoText={todoText}
+        onChangeText={onChangeText}
+        onClickAddText={onClickAddText}
+        flagdisableInput={incompleteTodos.length >= 5 && true}
+      />
+      {incompleteTodos.length >= 5 && (
+        <p style={{ color: "red" }}>登録できるのは5だ.</p>
+      )}
+
+      <InCompTodo
+        incompleteTodos={incompleteTodos}
+        onClickComp={onClickComp}
+        onClickDel={onClickDel}
+      />
+      <CompTodo completeTodos={completeTodos} onClickBack={onClickBack} />
     </>
   );
 };
-
-//ほかのファイルでも使えるように
-//ページごとにコンポーネント
-export default App;
-
-//ファイル名は.js or .jsx

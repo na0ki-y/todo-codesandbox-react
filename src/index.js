@@ -1,6 +1,6 @@
 import React from "react";
 //ページごとにコンポーネント
-import App from "./App.jsx";
+import { App } from "./App.jsx";
 
 // Appをrootにレンダリングする
 //ReactDom.render(<App />, document.getElementById("root"));
