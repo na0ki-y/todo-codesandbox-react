@@ -50,7 +50,12 @@ export const App = () => {
         todoText={todoText}
         onChangeText={onChangeText}
         onClickAddText={onClickAddText}
+        flagdisableInput={incompleteTodos.length >= 5 && true}
       />
+      {incompleteTodos.length >= 5 && (
+        <p style={{ color: "red" }}>登録できるのは5だ.</p>
+      )}
+
       <InCompTodo
         incompleteTodos={incompleteTodos}
         onClickComp={onClickComp}

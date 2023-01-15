@@ -24,11 +24,14 @@ export const InputTodo = (props) => {
   return (
     <div style={style_input}>
       <input
+        disabled={props.flagdisableInput}
         placeholder="ToDo"
         value={props.todoText}
         onChange={props.onChangeText}
       />
-      <button onClick={props.onClickAddText}>追加</button>
+      <button disabled={props.flagdisableInput} onClick={props.onClickAddText}>
+        追加
+      </button>
     </div>
   );
 };
