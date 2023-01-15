@@ -1,55 +1,40 @@
 import React, { useState, useEffect } from "react";
-import { Colofulmessage } from "./components/Colofulmessage";
-const App = () => {
-  console.log("saisyo");
-  const [num, setNum] = useState(0); //分割 変数名と関数
-  const [faceflag, setfaceflag] = useState(true); //分割 変数名と関数
-
-  const handleClick = () => {
-    setNum(num + 1);
-  };
-  const onoffclickbutton = () => {
-    setfaceflag(!faceflag);
-  };
-  useEffect(() => {
-    console.log("配列を指定しないとベタ書きと同じ");
-  }); //(関数,配列)
-  useEffect(() => {
-    console.log("はじめだけ実行するにはからの配列");
-  }, []); //(関数,配列)
-  useEffect(() => {
-    console.log("配列にnumを入れる：numにだけ関心を向ける");
-  }, [num]); //(関数,配列)
-  useEffect(() => {
-    if (num % 3 == 0) {
-      console.log("a");
-      faceflag || setfaceflag(true); //falseのときだけにsetfaceflag
-    } else {
-      faceflag && setfaceflag(false); //trueのときだけにsetfaceflag
-    }
-  }, [num]); //(関数,配列)
-
-  const contentState = { color: "blue", fontSize: "18px" }; //中にCSSの記法
-  const contentpinkState = { color: "pink", fontSize: "18px" }; //中にCSSの記法
-
-  //JSXはJSのなかにhtmlかける。
-  //複数なら外側で囲わないといけないから、<React.Fragment> </React.Fragment>or<></>
-  //<!-- {}JSをかく {color:'red'}JSオブジェクトの書き方 -->
+import "./styles.css";
+export const App = () => {
   return (
     <>
-      <h1 style={{ color: "red" }}>こんにちは．</h1>
-      <Colofulmessage color="blue">元気ですか？</Colofulmessage>
-      <Colofulmessage color="pink">げんき</Colofulmessage>
-      <button onClick={handleClick}>カウントアップぼたん!</button>
-      <p>{num}</p>
-      <button onClick={onoffclickbutton}>on/off</button>
-      {faceflag && <p>(TT)</p>}
+      <div className="input-area">
+        <input placeholder="ToDo"></input>
+        <button>追加</button>
+      </div>
+      <div className="incomplete-area">
+        <p className="title">未完了</p>
+        <ul>
+          <div className="list-row">
+            <li>掃除</li>
+            <button>完了</button>
+            <button>削除</button>
+          </div>
+          <div className="list-row">
+            <li>料理</li>
+            <button>完了</button>
+            <button>削除</button>
+          </div>
+        </ul>
+      </div>
+      <div className="complete-area">
+        <p className="title">完了</p>
+        <ul>
+          <div className="list-row">
+            <li>選択</li>
+            <button>戻す</button>
+          </div>
+          <div className="list-row">
+            <li>ごみ</li>
+            <button>戻す</button>
+          </div>
+        </ul>
+      </div>
     </>
   );
 };
-
-//ほかのファイルでも使えるように
-//ページごとにコンポーネント
-export default App;
-
-//ファイル名は.js or .jsx
