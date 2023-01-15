@@ -25,7 +25,7 @@ li {
   margin-right: 8px;
 }
 /* ここから下はclass名がいるやつ */
-.input-area {
+/* .input-area {
   background-color: #c1ffff;
   width: 400px;
   height: 30px;
@@ -41,7 +41,7 @@ li {
   padding: 8px;
   margin: 8px;
   border-radius: 8px;
-}
+} */
 
 .complete-area {
   background-color: #ffffe0;
